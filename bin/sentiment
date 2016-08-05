@@ -3,7 +3,6 @@
 
 var makeAnalyser = require('../src/data');
 var readingTime  = require('../src/utils/reading-time');
-var display = require('../src/ui');
 
 var meow = require('meow');
 var blessed = require('blessed');
@@ -27,6 +26,8 @@ if (!queries.length) {
     cli.showHelp(1);
 }
 
+queries.forEach(query => stream.track(query));
+
 var analyse = makeAnalyser();
 var screen = blessed.screen({
     smartCSR: true,
@@ -37,22 +38,9 @@ var title   = require('../src/components/title')(screen, queries);
 var summary = require('../src/components/summary')(screen);
 var latest  = require('../src/components/latest')(screen);
 var worst   = require('../src/components/worst')(screen);
+var best    = require('../src/components/best')(screen);
 
-var best = blessed.Box({
-    top: 5 + 1,
-    left: 0,
-    width: '50%',
-    height: 10,
-    padding: {left: 1, right: 1},
-    border: { type: 'line' },
-});
-
-screen.append(best);
 screen.render();
-
-var queryString = queries.join(', ');
-queries.forEach(query => stream.track(query));
-
 screen.key(['C-c', 'Q'], (ch, key) => {
     stream.abort();
     process.exit(1);
@@ -62,8 +50,8 @@ stream.on('tweet', tweet => {
     var r = analyse(tweet);
     title();
     summary(r);
-    best.setContent(display.best(r.best));
     worst(r);
+    best(r);
     latest(r);
     screen.render();
 });
