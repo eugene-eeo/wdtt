@@ -5,6 +5,8 @@ var makeAnalyser = require('../src/data');
 var readingTime  = require('../src/utils/reading-time');
 var display = require('../src/ui');
 
+var Summary = require('../src/components/summary');
+
 var meow = require('meow');
 var blessed = require('blessed');
 var Twitter = require('node-tweet-stream');
@@ -27,6 +29,7 @@ if (!queries.length) {
     cli.showHelp(1);
 }
 
+var analyse = makeAnalyser(100);
 var screen = blessed.screen({
     smartCSR: true,
     fullUnicode: true,
@@ -36,20 +39,12 @@ screen.append(blessed.Text({
     content: display.title(queries),
 }));
 
-var box = blessed.Box({
-    top: 1,
-    width: '100%',
-    height: 5,
-    padding: {left: 1, right: 1},
-    content: 'Hang on a moment...',
-    border: { type: 'line' },
-});
-
-screen.append(box);
+var summary = new Summary();
+summary.attach(analyse, screen);
 screen.render();
 
 var best = blessed.Box({
-    top: box.height + 1,
+    top: 5 + 1,
     left: 0,
     width: '50%',
     height: 10,
@@ -58,7 +53,7 @@ var best = blessed.Box({
 });
 
 var worst = blessed.Box({
-    top: box.height + 1,
+    top: 5 + 1,
     right:  0,
     width: '50%',
     height: 10,
@@ -88,12 +83,6 @@ screen.key(['C-c', 'Q'], (ch, key) => {
     process.exit(1);
 });
 
-var analyse = makeAnalyser(box.width - 4);
-screen.on('resize', () => {
-    analyse.resize(box.width - 4);
-});
-
-
 var latestTweet;
 setTimeout(function disp() {
     var time = 1000;
@@ -107,7 +96,7 @@ setTimeout(function disp() {
 
 stream.on('tweet', tweet => {
     var r = analyse(tweet);
-    box.setContent(display.summary(r));
+    summary.render(r);
     best.setContent(display.best(r.best));
     worst.setContent(display.worst(r.worst));
     if (!('retweeted_status' in tweet)) {
