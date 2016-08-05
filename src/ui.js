@@ -3,7 +3,7 @@ var sparkline = require('sparkline');
 
 
 function displayMean(r) {
-    var t = score_color(r.mean)(r.mean.toFixed(6));
+    var t = r.mean.toFixed(6);
     var s = r.growing ? '▲' : '▼';
     return chalk.bold('Sentiment: ') + s + ' ' + t;
 }
@@ -18,14 +18,14 @@ function summary(res) {
 
 function best(res) {
     return [
-        chalk.bold(score_color(res.score)('Best (' + (res.score) + ') ')),
+        chalk.bold('Best (' + res.score + ') '),
         formatTweet(res.tweet),
     ].join('\n');
 };
 
 function worst(res) {
     return [
-        chalk.bold(score_color(res.score)('Worst (' + (res.score) + ') ')),
+        chalk.bold('Worst (' + res.score + ') '),
         formatTweet(res.tweet),
     ].join('\n');
 };
