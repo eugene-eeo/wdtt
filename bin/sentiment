@@ -36,6 +36,7 @@ var screen = blessed.screen({
 var title   = require('../src/components/title')(screen, queries);
 var summary = require('../src/components/summary')(screen);
 var latest  = require('../src/components/latest')(screen);
+var worst   = require('../src/components/worst')(screen);
 
 var best = blessed.Box({
     top: 5 + 1,
@@ -46,17 +47,7 @@ var best = blessed.Box({
     border: { type: 'line' },
 });
 
-var worst = blessed.Box({
-    top: 5 + 1,
-    right:  0,
-    width: '50%',
-    height: 10,
-    padding: {left: 1, right: 1},
-    border: { type: 'line' },
-});
-
 screen.append(best);
-screen.append(worst);
 screen.render();
 
 var queryString = queries.join(', ');
@@ -72,7 +63,7 @@ stream.on('tweet', tweet => {
     title();
     summary(r);
     best.setContent(display.best(r.best));
-    worst.setContent(display.worst(r.worst));
+    worst(r);
     latest(r);
     screen.render();
 });
