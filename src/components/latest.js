@@ -7,7 +7,7 @@ var formatTweet = require('../utils/format-tweet');
 module.exports = function(screen) {
     var latest;
     var elem = blessed.Box({
-        bottom: 0,
+        top:    16,
         height: 10,
         width: '100%',
         padding: {left: 1, right: 1},
