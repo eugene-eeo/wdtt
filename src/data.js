@@ -21,6 +21,7 @@ module.exports = function(width) {
             score,
             best,
             worst,
+            tweet,
         };
     };
 };

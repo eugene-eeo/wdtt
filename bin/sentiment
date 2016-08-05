@@ -35,6 +35,7 @@ var screen = blessed.screen({
 
 var title   = require('../src/components/title')(screen, queries);
 var summary = require('../src/components/summary')(screen);
+var latest  = require('../src/components/latest')(screen);
 
 var best = blessed.Box({
     top: 5 + 1,
@@ -54,18 +55,8 @@ var worst = blessed.Box({
     border: { type: 'line' },
 });
 
-var latest = blessed.Box({
-    bottom: 0,
-    height: 10,
-    width: '100%',
-    padding: {left: 1, right: 1},
-    content: 'Hang on a moment...',
-    border: { type: 'line' },
-});
-
 screen.append(best);
 screen.append(worst);
-screen.append(latest);
 screen.render();
 
 var queryString = queries.join(', ');
@@ -76,25 +67,12 @@ screen.key(['C-c', 'Q'], (ch, key) => {
     process.exit(1);
 });
 
-var latestTweet;
-setTimeout(function disp() {
-    var time = 1000;
-    if (latestTweet) {
-        time = readingTime(latestTweet.text);
-        latest.setContent(display.latest(latestTweet));
-    }
-    setTimeout(disp, time);
-}, 1000);
-
-
 stream.on('tweet', tweet => {
     var r = analyse(tweet);
     title();
     summary(r);
     best.setContent(display.best(r.best));
     worst.setContent(display.worst(r.worst));
-    if (!('retweeted_status' in tweet)) {
-        latestTweet = tweet;
-    }
+    latest(r);
     screen.render();
 });

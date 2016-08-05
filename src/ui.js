@@ -1,5 +1,5 @@
 var chalk = require('chalk');
-var sparkline = require('sparkline');
+var formatTweet = require('./utils/format-tweet');
 
 
 function best(res) {
@@ -15,12 +15,6 @@ function worst(res) {
         formatTweet(res.tweet),
     ].join('\n');
 };
-
-
-function formatTweet(tweet) {
-    var prefix = chalk.bold('@' + tweet.user.screen_name + ': ');
-    return prefix + tweet.text;
-}
 
 
 function latest(tweet) {
