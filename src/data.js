@@ -15,7 +15,7 @@ module.exports = function(width) {
         var {mean, growing} = nextMean(score);
         var {worst, best} = worstBest({
             score: score,
-            text:  tweet.text,
+            tweet: tweet,
         });
         return {
             history: pushScore(score),

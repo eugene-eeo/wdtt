@@ -29,14 +29,14 @@ function summary(res) {
 function best(res) {
     return [
         chalk.bold(score_color(res.score)('Best (' + (res.score) + ') ')),
-        res.text,
+        res.tweet.text,
     ].join('\n');
 };
 
 function worst(res) {
     return [
         chalk.bold(score_color(res.score)('Worst (' + (res.score) + ') ')),
-        res.text,
+        res.tweet.text,
     ].join('\n');
 };
 
