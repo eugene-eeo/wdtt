@@ -2,20 +2,6 @@ var chalk = require('chalk');
 var sparkline = require('sparkline');
 
 
-function displayMean(r) {
-    var t = r.mean.toFixed(6);
-    var s = r.growing ? '▲' : '▼';
-    return chalk.bold('Sentiment: ') + s + ' ' + t;
-}
-
-
-function summary(res) {
-    return [
-        displayMean(res),
-        sparkline(res.history),
-    ].join('\n');
-}
-
 function best(res) {
     return [
         chalk.bold('Best (' + res.score + ') '),
@@ -31,11 +17,6 @@ function worst(res) {
 };
 
 
-function firstLine(text) {
-    return text.split('\n', 1)[0].trim();
-}
-
-
 function formatTweet(tweet) {
     var prefix = chalk.bold('@' + tweet.user.screen_name + ': ');
     return prefix + tweet.text;
@@ -49,15 +30,8 @@ function latest(tweet) {
     ].join('\n');
 }
 
-function title(queries) {
-    var qs = queries.map(str => chalk.inverse(' ' + str + ' ')).join(' ');
-    return chalk.bold(queries.length > 1 ? 'Queries: ' : 'Query: ') + qs;
-}
-
 module.exports = {
-    summary,
     best,
     worst,
     latest,
-    title,
 };

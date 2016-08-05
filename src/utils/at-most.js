@@ -1,4 +1,4 @@
-module.exports = function(max, buffer) {
+module.exports = function atMost(max, buffer) {
     buffer = (buffer || []).slice(-max);
     var exceed = false;
     var length = buffer.length;
@@ -12,6 +12,8 @@ module.exports = function(max, buffer) {
         return buffer;
     }
 
-    push.data = buffer;
+    push.resize = function(size) {
+        return atMost(size, buffer);
+    };
     return push;
 };
