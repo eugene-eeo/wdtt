@@ -1,20 +1,10 @@
 var chalk = require('chalk');
 var sparkline = require('sparkline');
-var truncate  = require('cli-truncate');
-
-
-function score_color(score) {
-    if (score === 0) return chalk.yellow;
-    if (score > 0)   return chalk.green;
-    return chalk.red;
-}
 
 
 function displayMean(r) {
     var t = score_color(r.mean)(r.mean.toFixed(6));
-    var s = r.growing
-        ? chalk.green('▲')
-        : chalk.red('▼');
+    var s = r.growing ? '▲' : '▼';
     return chalk.bold('Sentiment: ') + s + ' ' + t;
 }
 
@@ -29,14 +19,14 @@ function summary(res) {
 function best(res) {
     return [
         chalk.bold(score_color(res.score)('Best (' + (res.score) + ') ')),
-        res.tweet.text,
+        formatTweet(res.tweet),
     ].join('\n');
 };
 
 function worst(res) {
     return [
         chalk.bold(score_color(res.score)('Worst (' + (res.score) + ') ')),
-        res.tweet.text,
+        formatTweet(res.tweet),
     ].join('\n');
 };
 
@@ -46,17 +36,19 @@ function firstLine(text) {
 }
 
 
-function displayTweet(tweet, width) {
-    return truncate(text, width);
+function formatTweet(tweet) {
+    var handle = chalk.bold('@' + tweet.user.screen_name + ': ');
+    var text   = tweet.text.replace(/(\#\S+)/g, function(m) {
+            return chalk.bold(m);
+        });
+    return handle + tweet.text;
 }
+
 
 function latest(tweet) {
     return [
         chalk.bold('Latest:'),
-        chalk.bold(chalk.blue('@' + tweet.user.screen_name + ': '))
-            + tweet.text.replace(/(\#\S+)/g, function(m) {
-                return chalk.bold(m);
-            })
+        formatTweet(tweet),
     ].join('\n');
 }
 

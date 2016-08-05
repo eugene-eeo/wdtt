@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 
-var makeAnalyser = require('../src/data.js');
-var display = require('../src/ui.js');
+var makeAnalyser = require('../src/data');
+var readingTime  = require('../src/utils/reading-time');
+var display = require('../src/ui');
 
 var meow = require('meow');
 var blessed = require('blessed');
@@ -97,7 +98,7 @@ var latestTweet;
 setTimeout(function disp() {
     var time = 1000;
     if (latestTweet) {
-        time = 40 * latestTweet.text.length;
+        time = readingTime(latestTweet.text);
         latest.setContent(display.latest(latestTweet));
     }
     setTimeout(disp, time);
