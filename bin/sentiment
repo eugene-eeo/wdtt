@@ -1,0 +1,116 @@
+#!/usr/bin/env node
+'use strict';
+
+var makeAnalyser = require('../src/data.js');
+var display = require('../src/ui.js');
+
+var meow = require('meow');
+var blessed = require('blessed');
+var Twitter = require('node-tweet-stream');
+var stream = new Twitter({
+    consumer_key:    process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    token:           process.env.ACCESS_TOKEN,
+    token_secret:    process.env.ACCESS_SECRET,
+});
+
+var cli = meow(`
+    Usage
+      $ sentiment <query>...
+
+    Examples
+      $ sentiment trump
+`);
+var queries = cli.input;
+if (!queries.length) {
+    cli.showHelp(1);
+}
+
+var screen = blessed.screen({
+    smartCSR: true,
+    fullUnicode: true,
+});
+
+screen.append(blessed.Text({
+    content: display.title(queries),
+}));
+
+var box = blessed.Box({
+    top: 1,
+    width: '100%',
+    height: 5,
+    padding: {left: 1, right: 1},
+    content: 'Hang on a moment...',
+    border: { type: 'line' },
+});
+
+screen.append(box);
+screen.render();
+
+var best = blessed.Box({
+    top: box.height + 1,
+    left: 0,
+    width: '50%',
+    height: 10,
+    padding: {left: 1, right: 1},
+    border: { type: 'line' },
+});
+
+var worst = blessed.Box({
+    top: box.height + 1,
+    right:  0,
+    width: '50%',
+    height: 10,
+    padding: {left: 1, right: 1},
+    border: { type: 'line' },
+});
+
+var latest = blessed.Box({
+    bottom: 0,
+    height: 10,
+    width: '100%',
+    padding: {left: 1, right: 1},
+    content: 'Hang on a moment...',
+    border: { type: 'line' },
+});
+
+screen.append(best);
+screen.append(worst);
+screen.append(latest);
+screen.render();
+
+var queryString = queries.join(', ');
+queries.forEach(query => stream.track(query));
+
+screen.key(['C-c', 'Q'], (ch, key) => {
+    stream.abort();
+    process.exit(1);
+});
+
+var analyse = makeAnalyser(box.width - 4);
+screen.on('resize', () => {
+    analyse.resize(box.width - 4);
+});
+
+
+var latestTweet;
+setTimeout(function disp() {
+    var time = 1000;
+    if (latestTweet) {
+        time = 40 * latestTweet.text.length;
+        latest.setContent(display.latest(latestTweet));
+    }
+    setTimeout(disp, time);
+}, 1000);
+
+
+stream.on('tweet', tweet => {
+    var r = analyse(tweet);
+    box.setContent(display.summary(r));
+    best.setContent(display.best(r.best));
+    worst.setContent(display.worst(r.worst));
+    if (!('retweeted_status' in tweet)) {
+        latestTweet = tweet;
+    }
+    screen.render();
+});
