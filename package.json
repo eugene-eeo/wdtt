@@ -1,10 +1,9 @@
 {
-  "name": "twread",
+  "name": "wdtt",
   "version": "1.0.0",
-  "description": "sentimental twitter",
-  "main": "src/index.js",
-  "bin": "bin/sentiment",
-  "author": "",
+  "description": "what does twitter think",
+  "bin": "bin/wdtt",
+  "author": "Eeo Jun",
   "license": "MIT",
   "dependencies": {
     "blessed": "^0.1.81",

@@ -4,7 +4,7 @@ var formatTweet = require('../utils/format-tweet');
 
 
 module.exports = function(screen) {
-    var best;
+    var best = {score: -Infinity};
     var elem = blessed.Box({
         top: 5 + 1,
         left:   0,
@@ -16,8 +16,8 @@ module.exports = function(screen) {
 
     screen.append(elem);
     return function render(res) {
-        if (res.best === best) return;
-        best = res.best;
+        if (res.score < best.score) return;
+        best = res;
         elem.setContent([
             chalk.bold('Best (' + best.score + ') '),
             formatTweet(best.tweet),
