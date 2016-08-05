@@ -37,11 +37,8 @@ function firstLine(text) {
 
 
 function formatTweet(tweet) {
-    var handle = chalk.bold('@' + tweet.user.screen_name + ': ');
-    var text   = tweet.text.replace(/(\#\S+)/g, function(m) {
-            return chalk.bold(m);
-        });
-    return handle + tweet.text;
+    var prefix = chalk.bold('@' + tweet.user.screen_name + ': ');
+    return prefix + tweet.text;
 }
 
 
@@ -54,7 +51,7 @@ function latest(tweet) {
 
 function title(queries) {
     var qs = queries.map(str => chalk.inverse(' ' + str + ' ')).join(' ');
-    return (queries.length > 1 ? 'Queries: ' : 'Query: ') + qs;
+    return chalk.bold(queries.length > 1 ? 'Queries: ' : 'Query: ') + qs;
 }
 
 module.exports = {
