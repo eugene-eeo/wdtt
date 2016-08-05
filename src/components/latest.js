@@ -20,7 +20,7 @@ module.exports = function(screen) {
         if (latest) {
             time = readingTime(latest.text);
             elem.setContent([
-                chalk.bold('Latest:'),
+                chalk.bold('Latest'),
                 formatTweet(latest),
             ].join('\n'));
             latest = null;
