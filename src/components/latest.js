@@ -16,16 +16,16 @@ module.exports = function(screen) {
     });
 
     setTimeout(function display() {
-        var time = 1000;
+        var seconds = 1;
         if (latest) {
-            time = readingTime(latest.text);
+            seconds = readingTime(latest.text);
             elem.setContent([
                 chalk.bold('Latest'),
                 formatTweet(latest),
             ].join('\n'));
             latest = null;
         }
-        setTimeout(display, time);
+        setTimeout(display, seconds * 1000);
     });
 
     screen.append(elem);

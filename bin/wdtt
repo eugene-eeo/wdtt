@@ -5,10 +5,10 @@ var program = require('../src/index');
 var meow = require('meow');
 var cli = meow(`
     Usage
-      $ sentiment <query>...
+      $ wdtt <query>...
 
     Examples
-      $ sentiment trump
+      $ wdtt trump
 `);
 var queries = cli.input;
 if (!queries.length) {
