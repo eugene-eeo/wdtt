@@ -4,33 +4,34 @@ var readingTime = require('../utils/reading-time');
 var formatTweet = require('../utils/format-tweet');
 
 
-module.exports = function(screen) {
-    var latest;
-    var elem = blessed.Box({
-        top:    16,
-        height: 10,
-        width: '100%',
-        padding: {left: 1, right: 1},
-        content: 'Hang on a moment...',
-        border: { type: 'line' },
-    });
+module.exports = class Latest {
+    constructor(screen) {
+        this.latest = null;
+        this.elem = blessed.Box({
+            height: 10,
+            width: '100%',
+            padding: {left: 1, right: 1},
+            content: 'Hang on a moment...',
+            border: { type: 'line' },
+        });
+        var display = () => {
+            var seconds = 1;
+            if (this.latest) {
+                seconds = readingTime(this.latest.text);
+                this.elem.setContent([
+                    chalk.bold('Latest'),
+                    formatTweet(this.latest),
+                ].join('\n'));
+                this.latest = null;
+            }
+            setTimeout(display, seconds * 1000);
+        };
+        screen.append(this.elem);
+        display();
+    }
 
-    setTimeout(function display() {
-        var seconds = 1;
-        if (latest) {
-            seconds = readingTime(latest.text);
-            elem.setContent([
-                chalk.bold('Latest'),
-                formatTweet(latest),
-            ].join('\n'));
-            latest = null;
-        }
-        setTimeout(display, seconds * 1000);
-    });
-
-    screen.append(elem);
-    return function render(res) {
+    render(res) {
         if ('retweeted_status' in res.tweet) return;
-        latest = res.tweet;
+        this.latest = res.tweet;
     };
 };

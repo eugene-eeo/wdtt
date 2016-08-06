@@ -4,36 +4,37 @@ var sparkline = require('sparkline');
 var atMost = require('../utils/at-most');
 
 
-function sentimentLine(analysis) {
-    var {mean, growing} = analysis;
+function sentimentLine(res) {
+    var {mean, growing} = res;
     var s = growing ? '▲' : '▼';
     var v = mean.toFixed(6);
     return chalk.bold('Sentiment: ') + s + ' ' + v;
 }
 
 
-module.exports = function(screen) {
-    var elem = blessed.Box({
-        top: 1, // hack
-        height: 5,
-        border: {type: 'line'},
-        padding: {left: 1, right: 1},
-        content: 'Hang on a moment...',
-    });
+module.exports = class Summary {
+    constructor(screen) {
+        this.elem = blessed.Box({
+            height: 5,
+            border: {type: 'line'},
+            padding: {left: 1, right: 1},
+            content: 'Hang on a moment...',
+        });
 
-    var pushScore = atMost(100);
-    var resize = () => {
-        pushScore = pushScore.resize(elem.width - 4);
-    };
+        this.scores = atMost(100);
+        var resize = () => {
+            this.scores = this.scores.resize(this.elem.width - 4);
+        };
 
-    screen.on('resize', resize);
-    screen.append(elem);
-    resize();
+        screen.on('resize', resize);
+        screen.append(this.elem);
+        resize();
+    }
 
-    return function render(analysis) {
-        elem.setContent([
-            sentimentLine(analysis),
-            sparkline(pushScore(analysis.score)),
+    render(res) {
+        this.elem.setContent([
+            sentimentLine(res),
+            sparkline(this.scores(res.score)),
         ].join('\n'));
-    };
+    }
 };

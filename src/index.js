@@ -1,7 +1,14 @@
 var blessed = require('blessed');
 var Twitter = require('node-tweet-stream');
-
 var makeAnalyser = require('../src/data');
+
+var Title   = require('../src/components/title');
+var Summary = require('../src/components/summary');
+var Latest  = require('../src/components/latest');
+var Worst   = require('../src/components/worst');
+var Best    = require('../src/components/best');
+
+var layout = require('../src/layout');
 
 
 module.exports = function program(queries) {
@@ -18,26 +25,35 @@ module.exports = function program(queries) {
         fullUnicode: true,
     });
 
-    var title   = require('../src/components/title')(screen, queries);
-    var summary = require('../src/components/summary')(screen);
-    var latest  = require('../src/components/latest')(screen);
-    var worst   = require('../src/components/worst')(screen);
-    var best    = require('../src/components/best')(screen);
+    var title   = new Title(screen);
+    var summary = new Summary(screen);
+    var best    = new Best(screen);
+    var worst   = new Worst(screen);
+    var latest  = new Latest(screen);
 
+    var row = layout.row;
+    var stack = layout(
+        row(title.elem),
+        row(summary.elem),
+        row(best.elem, worst.elem),
+        row(latest.elem)
+    );
+
+    layout.render(stack);
+    title.render(queries);
     screen.render();
-    screen.key(['C-c', 'Q'], (ch, key) => {
+    screen.key(['C-c'], (ch, key) => {
         stream.abort();
-        process.exit(1);
+        process.exit(0);
     });
 
     queries.forEach(query => stream.track(query));
     stream.on('tweet', tweet => {
         var r = analyse(tweet);
-        title();
-        summary(r);
-        worst(r);
-        best(r);
-        latest(r);
+        summary.render(r);
+        worst.render(r);
+        best.render(r);
+        latest.render(r);
         screen.render();
     });
 };

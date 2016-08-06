@@ -3,24 +3,24 @@ var blessed = require('blessed');
 var formatTweet = require('../utils/format-tweet');
 
 
-module.exports = function(screen) {
-    var score = -Infinity;
-    var elem = blessed.Box({
-        top: 5 + 1,
-        left:   0,
-        width: '50%',
-        height: 10,
-        padding: {left: 1, right: 1},
-        border: { type: 'line' },
-    });
+module.exports = class Best {
+    constructor(screen) {
+        this.score = +Infinity;
+        this.elem = blessed.Box({
+            width: '50%',
+            height: 10,
+            padding: {left: 1, right: 1},
+            border: { type: 'line' },
+        });
+        screen.append(this.elem);
+    }
 
-    screen.append(elem);
-    return function render(res) {
-        if (res.score < score) return;
-        score = res.score;
-        elem.setContent([
-            chalk.bold('Best (' + score + ') '),
+    render(res) {
+        if (res.score > this.score) return;
+        this.score = res.score;
+        this.elem.setContent([
+            chalk.bold('Best (' + res.score + ') '),
             formatTweet(res.tweet),
         ].join('\n'));
-    };
+    }
 };
