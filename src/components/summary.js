@@ -35,6 +35,7 @@ module.exports = class Summary {
     render(res) {
         this.elem.setContent([
             sentimentLine(res),
+            '',
             sparkline(this.scores(res.score)),
         ].join('\n'));
     }
