@@ -29,12 +29,7 @@ module.exports = function program(queries) {
     var best    = new Best(screen);
     var worst   = new Worst(screen);
     var latest  = new Latest(screen);
-    var components = [
-        summary,
-        best,
-        worst,
-        latest,
-    ];
+    var components = [summary, best, worst, latest];
 
     var resize = () => {
         layout(layout.stack([
