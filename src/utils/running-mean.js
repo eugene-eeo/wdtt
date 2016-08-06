@@ -1,5 +1,5 @@
 var atMost = require('./at-most');
-var sum = a => a.reduce((r, a) => r+a);
+var sum = a => a.reduce((r, a) => r+a, 0);
 
 module.exports = function() {
     var mean  = 0;
