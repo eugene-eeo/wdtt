@@ -5,7 +5,9 @@ function row(...components) {
 }
 
 function renderThese(components) {
-    return data => components.forEach(c => c.render(data));
+    return data => process.nextTick(function() {
+        components.forEach(c => c.render(data))
+    });
 }
 
 module.exports = {

@@ -11,7 +11,7 @@ function avg(arr) {
 module.exports = function() {
     var mean  = 0;
     var count = 0;
-    var history = atMost(8);
+    var history = atMost(15);
     return datum => {
         var prev = mean;
         mean = ((mean * count) + datum) / ++count;

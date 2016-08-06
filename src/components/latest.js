@@ -8,7 +8,6 @@ module.exports = class Latest {
     constructor(screen) {
         this.latest = null;
         this.elem = blessed.Box({
-            height: 10,
             width: '100%',
             padding: {left: 1, right: 1},
             content: 'Hang on a moment...',

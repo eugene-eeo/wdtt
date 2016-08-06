@@ -38,14 +38,18 @@ module.exports = function program(queries) {
         latest,
     ]);
 
-    layout(layout.stack([
-        row(title),
-        row(summary),
-        row(best, worst),
-        row(latest),
-    ]));
+    var resize = () => {
+        layout(layout.stack([
+            row(title),
+            row(summary),
+            row(best, worst),
+            row(latest),
+        ]));
+    };
 
     title.render(queries);
+    resize();
+    screen.on('resize', resize);
     screen.render();
     screen.key(['C-c'], (ch, key) => {
         stream.abort();
