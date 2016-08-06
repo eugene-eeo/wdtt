@@ -8,7 +8,7 @@ var Latest  = require('../src/components/latest');
 var Worst   = require('../src/components/worst');
 var Best    = require('../src/components/best');
 
-var {renderThese, row} = require('../src/utils/sugar');
+var row = require('../src/utils/sugar');
 var layout = require('../src/layout');
 
 module.exports = function program(queries) {
@@ -29,13 +29,12 @@ module.exports = function program(queries) {
     var best    = new Best(screen);
     var worst   = new Worst(screen);
     var latest  = new Latest(screen);
-
-    var render = renderThese([
+    var components = [
         summary,
         best,
         worst,
         latest,
-    ]);
+    ];
 
     var resize = () => {
         layout(layout.stack([
@@ -57,7 +56,8 @@ module.exports = function program(queries) {
 
     queries.forEach(query => stream.track(query));
     stream.on('tweet', tweet => {
-        render(analyse(tweet));
+        var data = analyse(tweet);
+        components.forEach(c => c.render(data));
         screen.render();
     });
 };

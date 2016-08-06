@@ -2,6 +2,7 @@ var chalk = require('chalk');
 var blessed = require('blessed');
 var sparkline = require('sparkline');
 var atMost = require('../utils/at-most');
+var size = require('../utils/dimensions');
 
 
 function sentimentLine(res) {
@@ -23,7 +24,7 @@ module.exports = class Summary {
 
         this.scores = atMost(100);
         var resize = () => {
-            this.scores = this.scores.resize(this.elem.width - 4);
+            this.scores = this.scores.resize(size(this.elem).width);
         };
 
         screen.on('resize', resize);
