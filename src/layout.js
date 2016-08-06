@@ -1,14 +1,14 @@
-function layout(...rows) {
-    var top = 0;
+function layout(rows) {
     for (var row of rows) {
-        row.top = top;
-        top += row.height;
+        row.elems.forEach((elem, i) => {
+            elem.position.top = row.top;
+            elem.position.left = row.offsets[i];
+        });
     }
-    return rows;
 }
 
 
-layout.row = function(...elems) {
+layout.row = function(elems) {
     var height = 0;
     var widthSum = 0;
     var offsets = [];
@@ -26,14 +26,13 @@ layout.row = function(...elems) {
 };
 
 
-layout.render = function(stack) {
-    console.log(stack);
-    for (var row of stack) {
-        row.elems.forEach((elem, i) => {
-            elem.position.top = row.top;
-            elem.position.left = row.offsets[i];
-        });
+layout.stack = function(rows) {
+    var top = 0;
+    for (var row of rows) {
+        row.top = top;
+        top += row.height;
     }
+    return rows;
 };
 
 

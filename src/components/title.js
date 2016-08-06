@@ -16,8 +16,5 @@ module.exports = class Title {
             .map(str => chalk.inverse(' ' + str + ' '))
             .join(' ');
         this.elem.setContent(chalk.bold(pre) + ' ' + qs);
-        this.elem.setContent(
-            this.elem.border
-        );
     }
 }
