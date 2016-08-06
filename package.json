@@ -1,6 +1,7 @@
 {
   "name": "wdtt",
   "version": "1.0.0",
+  "repository": "https://github.com/eugene-eeo/wdtt",
   "description": "what does twitter think",
   "bin": "bin/wdtt",
   "author": "Eeo Jun",
