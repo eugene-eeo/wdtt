@@ -37,3 +37,16 @@ test('dimensions border', function(t) {
     });
     t.end();
 });
+
+
+test('dimensions border+padding', function(t) {
+    var elem = mockElem({
+        border:  {left: true, right: false},
+        padding: {left: 5, right: 10, top: 2},
+    });
+    t.deepEqual(dimensions(elem), {
+        width:  100 - 1 - 5 - 10,
+        height: 98,
+    });
+    t.end();
+});
