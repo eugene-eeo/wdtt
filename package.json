@@ -13,5 +13,12 @@
     "node-tweet-stream": "^2.0.1",
     "sentiment": "^2.0.0",
     "sparkline": "^0.1.2"
+  },
+  "devDependencies": {
+    "tap-dot": "^1.0.5",
+    "tape": "^4.6.0"
+  },
+  "scripts": {
+    "test": "tape './tests/*.js' | tap-dot"
   }
 }
