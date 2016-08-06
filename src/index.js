@@ -22,7 +22,6 @@ module.exports = function program(queries) {
     var analyse = makeAnalyser();
     var screen = blessed.screen({
         smartCSR: true,
-        fullUnicode: true,
     });
 
     var title   = new Title(screen);
