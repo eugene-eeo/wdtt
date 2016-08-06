@@ -38,12 +38,12 @@ module.exports = function program(queries) {
         latest,
     ]);
 
-    renderStack(stack(
+    renderStack(stack([
         row(title),
         row(summary),
+        row(latest),
         row(best, worst),
-        row(latest)
-    ));
+    ]));
 
     title.render(queries);
     screen.render();
