@@ -8,7 +8,7 @@ module.exports = class Best {
         this.score = -Infinity;
         this.elem = blessed.Box({
             width: '50%',
-            height: 10,
+            height: '40%',
             padding: {left: 1, right: 1},
             border: { type: 'line' },
         });
