@@ -8,8 +8,8 @@ var Latest  = require('../src/components/latest');
 var Worst   = require('../src/components/worst');
 var Best    = require('../src/components/best');
 
-var {renderThese, row, stack} = require('../src/utils/sugar');
-var renderStack = require('../src/layout');
+var {renderThese, row} = require('../src/utils/sugar');
+var layout = require('../src/layout');
 
 module.exports = function program(queries) {
     var stream = new Twitter({
@@ -38,11 +38,11 @@ module.exports = function program(queries) {
         latest,
     ]);
 
-    renderStack(stack([
+    layout(layout.stack([
         row(title),
         row(summary),
-        row(latest),
         row(best, worst),
+        row(latest),
     ]));
 
     title.render(queries);

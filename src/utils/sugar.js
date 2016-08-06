@@ -9,7 +9,6 @@ function renderThese(components) {
 }
 
 module.exports = {
-    stack: layout.stack,
     renderThese,
     row,
 };
