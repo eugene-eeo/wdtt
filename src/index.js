@@ -44,12 +44,12 @@ module.exports = function program(queries) {
             row(best, worst),
             row(latest),
         ]));
+        screen.render();
     };
 
     title.render(queries);
     resize();
     screen.on('resize', resize);
-    screen.render();
     screen.key(['C-c'], (ch, key) => {
         stream.abort();
         process.exit(0);
