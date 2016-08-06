@@ -17,10 +17,7 @@ module.exports = class Latest {
             var seconds = 1;
             if (this.latest) {
                 seconds = readingTime(this.latest.text);
-                this.elem.setContent([
-                    chalk.bold('Latest'),
-                    formatTweet(this.latest),
-                ].join('\n'));
+                this.elem.setContent(formatTweet(this.latest));
                 this.latest = null;
             }
             setTimeout(display, seconds * 1000);
