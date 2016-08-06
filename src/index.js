@@ -8,7 +8,7 @@ var Latest  = require('../src/components/latest');
 var Worst   = require('../src/components/worst');
 var Best    = require('../src/components/best');
 
-var row = require('../src/utils/sugar');
+var row = require('../src/utils/component-row');
 var layout = require('../src/layout');
 
 module.exports = function program(queries) {
