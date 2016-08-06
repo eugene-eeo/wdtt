@@ -2,16 +2,15 @@
 'use strict';
 
 var program = require('../src/index');
-var meow = require('meow');
-var cli = meow(`
-    Usage
-      $ wdtt <query>...
-
-    Examples
-      $ wdtt trump
-`);
-var queries = cli.input;
+var argv = require('minimist')(process.argv.slice(2));
+var help = `
+wdtt - what does twitter think?
+Usage:
+    $ wdtt <query>...
+`;
+var queries = argv._;
 if (!queries.length) {
-    cli.showHelp(1);
+    console.log(help);
+    process.exit(1);
 }
 program(queries);

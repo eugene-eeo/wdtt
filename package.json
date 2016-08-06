@@ -8,7 +8,7 @@
   "dependencies": {
     "blessed": "^0.1.81",
     "chalk": "^1.1.3",
-    "meow": "^3.7.0",
+    "minimist": "^1.2.0",
     "node-tweet-stream": "^2.0.1",
     "sentiment": "^2.0.0",
     "sparkline": "^0.1.2"
