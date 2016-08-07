@@ -36,7 +36,7 @@ module.exports = class Summary {
         this.elem.setContent([
             sentimentLine(res),
             '',
-            sparkline(this.scores(res.score)),
+            sparkline(this.scores(res.score), {style: 'fire'}),
         ].join('\n'));
     }
 };

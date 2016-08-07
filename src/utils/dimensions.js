@@ -1,6 +1,6 @@
 module.exports = function(elem) {
-    var padding = elem.padding;
-    var border  = elem.border;
+    var padding = elem.padding || {};
+    var border  = elem.border  || {};
     var width = elem.width
         - padding.left
         - padding.right

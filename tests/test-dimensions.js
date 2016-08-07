@@ -19,6 +19,16 @@ function mockElem(opts) {
 }
 
 
+test('dimensions simple', function(t) {
+    var elem = mockElem({});
+    t.deepEqual(dimensions(elem), {
+        width: 100,
+        height: 100,
+    });
+    t.end();
+});
+
+
 test('dimensions padding', function(t) {
     var elem = mockElem({ padding: { left: 1, right: 1 } });
     t.deepEqual(dimensions(elem), {
