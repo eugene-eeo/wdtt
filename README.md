@@ -13,6 +13,15 @@ just be performance improvements or codebase cleanups.
 Features:
 
  - Opinionated design.
+ - Optimised for long sessions.
  - Sparklines (everybody needs some).
  - Sentiment analysis.
  - No colors.
+
+TODO:
+
+ - Test more of the codebase.
+ - UI tests (how to test a TUI?)
+ - Client-server architecture?
+ - Trends using count-min-skip?
+ - Overengineered sparkline.
