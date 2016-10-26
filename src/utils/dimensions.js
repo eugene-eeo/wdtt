@@ -1,3 +1,5 @@
+// computes the real dimensions of an element, defined as how many characters
+// can fit into the element in the X (width) and Y (height) dimensions.
 module.exports = function(elem) {
     var padding = elem.padding || {};
     var border  = elem.border  || {};
