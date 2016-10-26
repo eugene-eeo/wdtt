@@ -11,7 +11,7 @@ var Best    = require('../src/components/best');
 var row = require('../src/utils/component-row');
 var layout = require('../src/layout');
 
-module.exports = function program(queries) {
+module.exports = function(queries) {
     var stream = new Twitter({
         consumer_key:    process.env.CONSUMER_KEY,
         consumer_secret: process.env.CONSUMER_SECRET,
