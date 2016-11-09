@@ -10,6 +10,15 @@ just be performance improvements or codebase cleanups.
 
 (Looks best on Source Code Pro with 10pt font).
 
+You need to set some environment variables beforehan; refer to the
+Twitter API docs here: https://dev.twitter.com/ on where you could
+get the tokens.
+
+ - `CONSUMER_KEY`
+ - `CONSUMER_SECRET`
+ - `ACCESS_TOKEN`
+ - `ACCESS_SECRET`
+
 Features:
 
  - Opinionated design.
